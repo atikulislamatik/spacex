@@ -1,37 +1,44 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchSpacex, spacexSelector } from './store/reducers/spacex/spacexSlice'
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./App.css";
+import { FeedCard } from "./components/Feed/FeedCard";
+import { Loader } from "./components/Loader";
+import {
+  fetchSpacex,
+  spacexSelector
+} from "./store/reducers/spacex/spacexSlice";
 
 const App = () => {
-  const dispatch = useDispatch()
-  const { spacex, loading, hasErrors } = useSelector(spacexSelector)
+  const dispatch = useDispatch();
+  const { spacex, loading, hasErrors } = useSelector(spacexSelector);
 
   useEffect(() => {
-    dispatch(fetchSpacex())
-  }, [dispatch])
-
-  const renderSpacex = () => {
-    if (loading) return <p>Loading Spacex...</p>
-    if (hasErrors) return <p>Cannot display Spacex...</p>
-
-    return spacex.map(spacex =>
-      <div key={spacex.flight_number} className='tile'>
-       <h3>
-         {spacex.mission_name}
-       </h3>
-      </div>
-    )
-  }
+    dispatch(fetchSpacex());
+  }, [dispatch]);
 
   return (
-    <section>
-      <h1>Spacex</h1>
-      <div className='content'>
-        {renderSpacex()}
-      </div>
-    </section>
-  )
-}
+    <>
+      <h2 className="text-center p-5">Spacex Test Project</h2>
+      <section className="notification-area">
+        <div className="container">
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              {spacex.length > 0 && (
+                <>
+                  {spacex.map(
+                    (item, index) =>
+                      item && <FeedCard item={item} key={"feedCard" + index} />
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </div>
+      </section>
+    </>
+  );
+};
 
-export default App
+export default App;

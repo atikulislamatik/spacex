@@ -15,7 +15,7 @@ const spacexSlice = createSlice({
     },
     getSpacexSuccess: (state, { payload }) => {
       state.spacex = payload;
-      state.loading = false;
+      state.loading = true;
       state.hasErrors = false;
     },
     getSpacexFailure: (state) => {

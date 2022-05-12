@@ -15,7 +15,7 @@ const spacexSlice = createSlice({
     },
     getSpacexSuccess: (state, { payload }) => {
       state.spacex = payload;
-      state.loading = true;
+      state.loading = false;
       state.hasErrors = false;
     },
     getSpacexFailure: (state) => {
@@ -25,17 +25,13 @@ const spacexSlice = createSlice({
   },
 });
 
-// Three actions generated from the slice
 export const { getSpacex, getSpacexSuccess, getSpacexFailure } =
   spacexSlice.actions;
 
-// A selector
 export const spacexSelector = (state) => state.spacex;
 
-// The reducer
 export default spacexSlice.reducer;
 
-// Asynchronous thunk action
 export function fetchSpacex() {
   return async (dispatch) => {
     dispatch(getSpacex());
@@ -43,7 +39,7 @@ export function fetchSpacex() {
     try {
       const response = await fetch("https://api.spacexdata.com/v3/launches");
       const data = await response.json();
-      console.log(data);
+
       dispatch(getSpacexSuccess(data));
     } catch (error) {
       dispatch(getSpacexFailure());

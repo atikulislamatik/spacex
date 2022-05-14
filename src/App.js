@@ -12,7 +12,6 @@ const App = () => {
   const dispatch = useDispatch();
   const { spacex, loading, hasErrors } = useSelector(spacexSelector);
   const [search, setNewSearch] = useState("");
-
   useEffect(() => {
     dispatch(fetchSpacex());
   }, [dispatch]);
@@ -27,6 +26,7 @@ const App = () => {
         spacex.rocket.rocket_name.toLowerCase().includes(search.toLowerCase())
       );
 
+
   return (
     <>
       <h2 className="text-center p-5">Spacex Test Project</h2>
@@ -34,7 +34,7 @@ const App = () => {
       <section className="feed-area">
         <div className="container">
           <div className="row">
-            <div className="col-lg-5">
+            <div className="col-lg-6 offset-lg-3">
               <input
                 type="text"
                 value={search}
@@ -49,18 +49,20 @@ const App = () => {
               <Loader />
             ) : (
               <>
-                {filtered.length > 0 ?(
+                {filtered.length > 0 ? (
                   <>
                     {filtered.map(
                       (item, index) =>
                         item && (
                           <div className="col-lg-3">
-                            <FeedCard item={item} key={"feedCard" + index} />
+                            <FeedCard item={item} key={item.id} />
                           </div>
                         )
                     )}
                   </>
-                ): <h6 className="text-center">Not found</h6> }
+                ) : (
+                  <h6 className="text-center">Not found</h6>
+                )}
               </>
             )}
           </div>
